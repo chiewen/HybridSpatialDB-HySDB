@@ -1,10 +1,11 @@
+#pragma once
+
 #include <gtest/gtest.h>
-#include <moving_objects/Site.h>
+#include <Site.h>
 
 TEST(Trajectory, Simple) {
 	Site s;
-	s.show();
-
+	s.discribe();
 	ASSERT_EQ(220, 220);
 }
 

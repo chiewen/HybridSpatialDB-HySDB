@@ -1,6 +1,7 @@
 ﻿#include "Site.h"
 #include <iostream>
 
-void Site::show()
+string Site::discribe()
 {
+	return string();
 }

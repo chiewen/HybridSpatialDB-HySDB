@@ -159,12 +159,12 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="moving_objects\Site.h" />
-    <ClInclude Include="moving_objects\SiteArranger.h" />
+    <ClInclude Include="Site.h" />
+    <ClInclude Include="SiteArranger.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="moving_objects\Site.cpp" />
-    <ClCompile Include="moving_objects\SiteArranger.cpp" />
+    <ClCompile Include="Site.cpp" />
+    <ClCompile Include="SiteArranger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

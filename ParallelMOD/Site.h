@@ -1,4 +1,7 @@
 ﻿#pragma once
+#include <string>
+
+using namespace std;
 
 class Site
 {
@@ -7,5 +10,5 @@ public:
 	float y;
 	int id;
 
-	void show();
+	string discribe();
 };
