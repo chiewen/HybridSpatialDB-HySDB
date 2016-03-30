@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CudaCompile Include="kernel.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="alg">
+      <UniqueIdentifier>{648abbe9-a4ab-4089-8897-0e40eae1de1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="m_obj">
+      <UniqueIdentifier>{911085e7-63d1-4c90-b169-c33edaeb7a9f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Site.h">
+      <Filter>m_obj</Filter>
+    </ClInclude>
+    <ClInclude Include="SiteArranger.h">
+      <Filter>m_obj</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Site.cpp">
+      <Filter>m_obj</Filter>
+    </ClCompile>
+    <ClCompile Include="SiteArranger.cpp">
+      <Filter>m_obj</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
