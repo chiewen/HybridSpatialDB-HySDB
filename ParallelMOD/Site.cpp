@@ -1,7 +1,3 @@
-﻿#include "Site.h"
+﻿#include "site.h"
 #include <iostream>
 
-string Site::discribe()
-{
-	return string();
-}

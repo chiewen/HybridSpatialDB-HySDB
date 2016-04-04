@@ -1,6 +1,5 @@
 #pragma once
-class SiteArranger
-{
+class SiteArranger {
 public:
 	const int SITE_NUM = 2 ^ 16;
 

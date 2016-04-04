@@ -1,14 +1,18 @@
 ﻿#pragma once
 #include <string>
+#include <chrono>
 
 using namespace std;
 
-class Site
-{
-public:
+struct Site {
+	int id;
 	float x;
 	float y;
-	int id;
+	chrono::high_resolution_clock::time_point tu;
 
-	string discribe();
+	Site() = default;
+
+	Site(int id, float x, float y)
+		: id(id), x(x), y(y), tu(chrono::high_resolution_clock::now()) { }
 };
+

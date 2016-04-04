@@ -69,6 +69,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <ReferencePath>D:\Work\lib\googletest-master\googletest\msvc\gtest\Debug;$(ReferencePath)</ReferencePath>
+    <IncludePath>D:\Work\lib\boost_1_60_0;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Work\lib\boost_1_60_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -79,6 +81,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
+      <AdditionalIncludeDirectories>D:\Work\lib\boost_1_60_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -159,12 +162,12 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Site.h" />
-    <ClInclude Include="SiteArranger.h" />
+    <ClCompile Include="site.cpp" />
+    <ClCompile Include="site_arranger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Site.cpp" />
-    <ClCompile Include="SiteArranger.cpp" />
+    <ClInclude Include="site.h" />
+    <ClInclude Include="site_arranger.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,30 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CudaCompile Include="kernel.cu" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="alg">
+    <Filter Include="Algorithm">
       <UniqueIdentifier>{648abbe9-a4ab-4089-8897-0e40eae1de1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="m_obj">
+    <Filter Include="CUDA">
+      <UniqueIdentifier>{6da7289d-8b11-4fc1-9f76-aa9938e501e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MovingObjects">
       <UniqueIdentifier>{911085e7-63d1-4c90-b169-c33edaeb7a9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Site.h">
-      <Filter>m_obj</Filter>
-    </ClInclude>
-    <ClInclude Include="SiteArranger.h">
-      <Filter>m_obj</Filter>
-    </ClInclude>
+    <CudaCompile Include="kernel.cu">
+      <Filter>CUDA</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Site.cpp">
-      <Filter>m_obj</Filter>
+    <ClCompile Include="site.cpp">
+      <Filter>MovingObjects</Filter>
     </ClCompile>
-    <ClCompile Include="SiteArranger.cpp">
-      <Filter>m_obj</Filter>
+    <ClCompile Include="site_arranger.cpp">
+      <Filter>MovingObjects</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="site.h">
+      <Filter>MovingObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="site_arranger.h">
+      <Filter>MovingObjects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
