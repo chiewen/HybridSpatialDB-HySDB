@@ -17,11 +17,15 @@ public:
 	void RefillEmpty();
 
 	static int get_coordinate(float cord);
-	static void RefreshSecondaryIndex(const int id, Bucket* bucket, unsigned index, int row, int col);
+//	static void RefreshSecondaryIndex(const int id, Bucket* bucket, unsigned index, int row, int col);
+//	static void AddSecondaryIndex(const int id, Bucket* bucket, unsigned index, int row, int col);
 
-	void AddSite(const Site& site, int row, int col);
-	void DelSite(const Site& site);
+//	void AddSiteToNewCell(const Site& site, int row, int col);
+	void AddNewSite(const Site& site, int row, int col);
 	void MoveSite(const Site& site);
+private:
+	pair<Bucket*, unsigned> AddToCell(const Site& site, int row, int col);
+	void RemoveFromCell(const Site& site);
 };
 
 

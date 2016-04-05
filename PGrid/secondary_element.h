@@ -1,7 +1,10 @@
 ﻿#pragma once
 #include "bucket.h"
 
-struct SecondaryElement {
+class SecondaryElement {
+	friend class Grid;
+	friend class SecondaryIndex;
+
 	Bucket* p_bucket;
 	unsigned index;
 	int row;
@@ -13,6 +16,6 @@ struct SecondaryElement {
 	int col_ld;
 
 	SecondaryElement(Bucket* b, unsigned i, int row, int col);
-	void RefreshValues(Bucket* b, unsigned i, int row, int col);
+	void RollInValues(Bucket* b, unsigned i, int row, int col);
 };
 

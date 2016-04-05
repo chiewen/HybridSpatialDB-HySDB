@@ -30,23 +30,30 @@ TEST(Container, Grid) {
 	ASSERT_EQ(grid[3][4]->current_, 0);
 
 	for (int i = 0; i < 3; i++)
-		grid.AddSite(Site(i, x, y), 3, 4);
+		grid.AddNewSite(Site(i, x, y), 3, 4);
 
 	ASSERT_EQ(grid[3][4]->current_, 3);
 
 	for (int i = 3; i <= Bucket::kSize; i++)
-		grid.AddSite(Site(i, x, y), 3, 4);
+		grid.AddNewSite(Site(i, x, y), 3, 4);
 
 	ASSERT_EQ(grid[3][4]->next_->current_, Bucket::kSize);
 	ASSERT_EQ(grid[3][4]->current_, 1);
 
-	grid.DelSite(Site(100, x, y));
+	grid.RemoveFromCell(Site(100, x, y));
 	ASSERT_EQ(grid[3][4]->current_, 1);
 
-	grid.DelSite(Site(32, x, y));
+	grid.RemoveFromCell(Site(32, x, y));
 	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize);
 
-	grid.DelSite(Site(11, x, y));
+	grid.RemoveFromCell(Site(11, x, y));
 	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize - 1);
+
+	grid.MoveSite(Site(11, x + 2, y + 2));
+	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize - 1);
+
+	grid.MoveSite(Site(11, 1, 1));
+	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize - 2);
+	ASSERT_EQ(grid[0][0]->current_, 1);
 }
 
