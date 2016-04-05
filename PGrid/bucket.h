@@ -14,13 +14,14 @@ class Bucket {
 	static const int kSize = 32;
 	array<Site, kSize> sites_;
 	unsigned current_ = 0;
+	unsigned readers_ = 0;
 	unique_ptr<Bucket> next_ = nullptr;
 
 public:
 	bool is_full() const;
 	bool is_empty() const;
 
-	pair<Bucket*, unsigned> Add(const Site& site, int row, int col);
+	pair<Bucket*, unsigned> Add(int id, float x, float y, int row, int col);
 	tuple<int, Bucket*, unsigned, bool> Del(const int id);
 };
 

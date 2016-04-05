@@ -2,6 +2,7 @@
 #include "bucket.h"
 
 class SecondaryElement {
+	FRIEND_TEST(Container, Grid);
 	friend class Grid;
 	friend class SecondaryIndex;
 

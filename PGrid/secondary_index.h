@@ -8,9 +8,7 @@ using namespace std;
 using boost::serialization::singleton;
 
 class SecondaryIndex : public unordered_map<int, SecondaryElement>, public singleton<SecondaryIndex> { 
-public:
-	static SecondaryElement* GetById(int id);
-
-	void RenewPlaceChangedSite(int id, Bucket * p_bucket, unsigned pos, bool is_real);
+	friend Grid;
+	void RenewSwappedSite(int id, Bucket * p_bucket, unsigned pos, bool is_real);
 };
 

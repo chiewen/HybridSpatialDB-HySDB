@@ -11,24 +11,22 @@ const static int kGridWidth = 1 << 8;
 const static float kSpaceWidth = 1 << 17;
 const static int kSpacePerCellBitwise = 9;
 
-class Grid : public array<array<unique_ptr<Bucket>, kGridWidth>, kGridWidth>, public singleton<Grid> {
+class Grid : public array<array<unique_ptr<Bucket>, kGridWidth>, kGridWidth>,
+             public singleton<Grid> {
 public:
 	Grid();
-	void RefillEmpty();
-
-	static int get_coordinate(float cord);
-//	static void RefreshSecondaryIndex(const int id, Bucket* bucket, unsigned index, int row, int col);
-//	static void AddSecondaryIndex(const int id, Bucket* bucket, unsigned index, int row, int col);
-
-//	void AddSiteToNewCell(const Site& site, int row, int col);
-	void AddNewSite(const Site& site, int row, int col);
-	void MoveSite(const Site& site);
+	void Clear();
+	void AddSite(int id, float x, float y, int row, int col);
+	void DelSite(int id);
+	void MoveSite(int id, float x, float y);
 private:
-	pair<Bucket*, unsigned> AddToCell(const Site& site, int row, int col);
-	void RemoveFromCell(const Site& site);
+	static int get_coordinate(float cord);
+	pair<Bucket*, unsigned> AddToCell(int id, float x, float y, int row, int col);
+	void RemoveFromCell(int id, int row, int col);
 };
 
 
 inline int Grid::get_coordinate(float cord) {
 	return static_cast<int>(cord) >> kSpacePerCellBitwise;
 }
+
