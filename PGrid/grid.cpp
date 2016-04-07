@@ -12,6 +12,8 @@ void Grid::Clear() {
 }
 
 pair<Bucket*, unsigned> Grid::AddToCell(int id, float x, float y, int row, int col) {
+	lock_guard<mutex>{g_mutex[row][col]};
+
 	if ((*this)[row][col]->is_full()) {
 		auto new_bucket = make_unique<Bucket>();
 		new_bucket->next_ = move((*this)[row][col]);
@@ -40,6 +42,11 @@ void Grid::DelSite(int id) {
 }
 
 void Grid::RemoveFromCell(int id, int row, int col) {
+	lock_guard<mutex>{g_mutex[row][col]};
+
+	// ReSharper disable once CppPossiblyErroneousEmptyStatements
+	while (g_reader[row][col] > 0);
+
 	auto swapped = (*this)[row][col]->Del(id);
 	if (get<0>(swapped) >= 0) {
 		SecondaryIndex::get_mutable_instance().RenewSwappedSite(
@@ -63,6 +70,7 @@ void Grid::MoveSite(int id, float x, float y) {
 		return;
 	}
 
+	lock_guard<mutex> {s_mutex[id]};
 	auto ptr = &p->second;
 	if (ptr->col == col && ptr->row == row) {// local update
 		auto p_site = ptr->p_bucket->sites_.begin() + ptr->index;

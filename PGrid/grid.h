@@ -3,6 +3,7 @@
 #include <array> 
 #include <boost/serialization/singleton.hpp>
 #include "bucket.h"
+#include <mutex>
 
 using namespace std;
 using boost::serialization::singleton;
@@ -10,6 +11,9 @@ using boost::serialization::singleton;
 const static int kGridWidth = 1 << 8;
 const static float kSpaceWidth = 1 << 17;
 const static int kSpacePerCellBitwise = 9;
+
+static mutex g_mutex[kGridWidth][kGridWidth];
+static unsigned g_reader[kGridWidth][kGridWidth];
 
 class Grid : public array<array<unique_ptr<Bucket>, kGridWidth>, kGridWidth>,
              public singleton<Grid> {

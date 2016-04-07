@@ -1,8 +1,13 @@
 ﻿#pragma once
 #include <string>
 #include <ctime>
+#include <mutex>
 
 using namespace std;
+
+const static int kMaxSiteNum = 1 << 16;
+
+static mutex s_mutex[kMaxSiteNum];
 
 struct Site {
 	int id;
