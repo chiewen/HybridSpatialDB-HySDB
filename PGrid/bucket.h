@@ -21,8 +21,8 @@ public:
 	bool is_full() const;
 	bool is_empty() const;
 
-	pair<Bucket*, unsigned> Add(int id, float x, float y, int row, int col);
-	tuple<int, Bucket*, unsigned, bool> Del(const int id);
+	pair<Bucket*, unsigned> Add(int id, float x, float y, int col, int row);
+	tuple<int, Bucket*, unsigned, bool, bool> Del(const int id);
 };
 
 

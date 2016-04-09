@@ -16,7 +16,7 @@ class SecondaryElement {
 	int row_ld;
 	int col_ld;
 
-	SecondaryElement(Bucket* b, unsigned i, int row, int col);
-	void RollInValues(Bucket* b, unsigned i, int row, int col);
+	SecondaryElement(Bucket* b, unsigned i, int col, int row);
+	void RollInValues(Bucket* b, unsigned i, int col, int row);
 };
 

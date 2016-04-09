@@ -30,15 +30,15 @@ TEST(Container, Grid) {
 	auto& grid = Grid::get_mutable_instance();
 	grid.Clear();
 
-	ASSERT_EQ(grid[3][4]->current_, 0);
+	ASSERT_EQ(grid[4][3]->current_, 0);
 
 	for (int i = 0; i < 3; i++)
-		grid.AddSite(i, x, y, 3, 4);
+		grid.AddSite(i, x, y);
 
-	ASSERT_EQ(grid[3][4]->current_, 3);
+	ASSERT_EQ(grid[4][3]->current_, 3);
 
 	for (int i = 3; i <= Bucket::kSize; i++)
-		grid.AddSite(i, x, y, 3, 4);
+		grid.AddSite(i, x, y);
 
 	auto & si = SecondaryIndex::get_const_instance();
 	auto p = si.find(12);
@@ -46,28 +46,39 @@ TEST(Container, Grid) {
 	ASSERT_EQ(p->second.col, 4);
 	ASSERT_EQ(p->second.col_ld, -1);
 
-	ASSERT_EQ(grid[3][4]->next_->current_, Bucket::kSize);
-	ASSERT_EQ(grid[3][4]->current_, 1);
+	ASSERT_EQ(grid[4][3]->next_->current_, Bucket::kSize);
+	ASSERT_EQ(grid[4][3]->current_, 1);
 
 	grid.DelSite(100);
-	ASSERT_EQ(grid[3][4]->current_, 1);
+	ASSERT_EQ(grid[4][3]->current_, 1);
 
 	grid.DelSite(32);
-	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize);
+	ASSERT_EQ(grid[4][3]->current_, Bucket::kSize);
 
 	grid.DelSite(11);
-	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize - 1);
+	ASSERT_EQ(grid[4][3]->current_, Bucket::kSize - 1);
 
 	grid.MoveSite(12, x + 2, y + 2);
-	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize - 1);
-
+	ASSERT_EQ(grid[4][3]->current_, Bucket::kSize - 1);
+	ASSERT_EQ(grid[0][0]->current_, 0);
 	grid.MoveSite(12, 1, 1);
-	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize - 1);
+	ASSERT_EQ(grid[4][3]->current_, Bucket::kSize - 1);
 	ASSERT_EQ(grid[0][0]->current_, 1);
-
 	ASSERT_EQ(p->second.col, 0);
 	ASSERT_EQ(p->second.col_ld, 4);
 	grid.MoveSite(12, x1, y1);
-	ASSERT_EQ(grid[3][4]->current_, Bucket::kSize - 2);
+	ASSERT_EQ(grid[4][3]->current_, Bucket::kSize - 2);
+	ASSERT_EQ(grid[0][0]->current_, 1);
+	ASSERT_EQ(grid[6][5]->current_, 1);
+	//grid.MoveSite(13, 1, 1);
+	grid.MoveSite(13, x1, y1);
+	grid.MoveSite(14, x1, y1);
+	ASSERT_EQ(grid[6][5]->current_, 3);
+
+	vector<Site> result;
+	grid.Query(result, 0, 0, x1+10, y1+10, static_cast<long int>(time(nullptr) - 100000));
+
+	ASSERT_EQ(result.size(), 31);
+
 }
 
