@@ -24,13 +24,7 @@ public:
 	}
 	bool is_full() const;
 	bool is_empty() const;
-
-	void init() {
-		current_ = 0;
-		readers_ = 0;
-		next_ = nullptr;
-	}
-
+	
 	pair<Bucket*, unsigned> Add(int id, int x, int y, int col, int row);
 	tuple<int, Bucket*, unsigned, bool, bool> Del(const int id);
 };

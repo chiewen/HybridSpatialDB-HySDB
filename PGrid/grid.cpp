@@ -18,10 +18,10 @@ void Grid::Clear() {
 	for (int i = 0; i < kGridWidth; i++)
 		for (int j = 0; j < kGridWidth; j++)
 			_aligned_free(grid[i][j]);
-	for (int i = 0; i < kGridWidth; i++) 
+	for (int i = 0; i < kGridWidth; i++)
 		for (int j = 0; j < kGridWidth; j++) {
 			grid[i][j] = static_cast<Bucket*>(_aligned_malloc(sizeof(Bucket), 16));
-			grid[i][j]->init();
+			new(grid[i][j]) Bucket();
 		}
 }
 
@@ -29,8 +29,8 @@ pair<Bucket*, unsigned> Grid::AddToCell(int id, int x, int y, int col, int row) 
 	lock_guard<mutex>{g_mutex[col][row]};
 
 	if (grid[col][row]->is_full()) {
-		Bucket * new_bucket = static_cast<Bucket*>(_aligned_malloc(sizeof(Bucket), 16));
-		new_bucket->init();
+		Bucket* new_bucket = static_cast<Bucket*>(_aligned_malloc(sizeof(Bucket), 16));
+		new(new_bucket) Bucket();
 		new_bucket->next_ = grid[col][row];
 		grid[col][row] = new_bucket;
 	}
