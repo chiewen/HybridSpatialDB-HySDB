@@ -15,13 +15,23 @@ class Bucket {
 	array<Site, kSize> sites_;
 	unsigned current_ = 0;
 	unsigned readers_ = 0;
-	unique_ptr<Bucket> next_ = nullptr;
+	Bucket* next_ = nullptr;
 
 public:
+	~Bucket() {
+		next_->~Bucket();
+		_aligned_free(next_);
+	}
 	bool is_full() const;
 	bool is_empty() const;
 
-	pair<Bucket*, unsigned> Add(int id, float x, float y, int col, int row);
+	void init() {
+		current_ = 0;
+		readers_ = 0;
+		next_ = nullptr;
+	}
+
+	pair<Bucket*, unsigned> Add(int id, int x, int y, int col, int row);
 	tuple<int, Bucket*, unsigned, bool, bool> Del(const int id);
 };
 

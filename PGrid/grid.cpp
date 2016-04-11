@@ -1,29 +1,44 @@
 #include "grid.h"
 #include "secondary_index.h"
 
+
 Grid::Grid() {
 	Clear();
 }
 
-void Grid::Clear() {
-	for (auto& bucket_array : *this)
-		for (auto& bucket : bucket_array)
-			bucket = make_unique<Bucket>();
+Grid::~Grid() {
+	for (int i = 0; i < kGridWidth; i++)
+		for (int j = 0; j < kGridWidth; j++) {
+			grid[i][j]->~Bucket();
+			_aligned_free(grid[i][j]);
+		}
 }
 
-pair<Bucket*, unsigned> Grid::AddToCell(int id, float x, float y, int col, int row) {
+void Grid::Clear() {
+	for (int i = 0; i < kGridWidth; i++)
+		for (int j = 0; j < kGridWidth; j++)
+			_aligned_free(grid[i][j]);
+	for (int i = 0; i < kGridWidth; i++) 
+		for (int j = 0; j < kGridWidth; j++) {
+			grid[i][j] = static_cast<Bucket*>(_aligned_malloc(sizeof(Bucket), 16));
+			grid[i][j]->init();
+		}
+}
+
+pair<Bucket*, unsigned> Grid::AddToCell(int id, int x, int y, int col, int row) {
 	lock_guard<mutex>{g_mutex[col][row]};
 
-	if ((*this)[col][row]->is_full()) {
-		auto new_bucket = make_unique<Bucket>();
-		new_bucket->next_ = move((*this)[col][row]);
-		(*this)[col][row] = move(new_bucket);
+	if (grid[col][row]->is_full()) {
+		Bucket * new_bucket = static_cast<Bucket*>(_aligned_malloc(sizeof(Bucket), 16));
+		new_bucket->init();
+		new_bucket->next_ = grid[col][row];
+		grid[col][row] = new_bucket;
 	}
 
-	return (*this)[col][row]->Add(id, x, y, col, row);
+	return grid[col][row]->Add(id, x, y, col, row);
 }
 
-void Grid::AddSite(int id, float x, float y) {
+void Grid::AddSite(int id, int x, int y) {
 	int col = get_coordinate(x);
 	int row = get_coordinate(y);
 
@@ -52,63 +67,66 @@ bool Grid::RemoveFromCell(int id, int col, int row) {
 	// ReSharper disable once CppPossiblyErroneousEmptyStatements
 	while (g_reader[col][row] > 0);
 
-	auto swapped = (*this)[col][row]->Del(id);
+	auto swapped = grid[col][row]->Del(id);
 	if (get<4>(swapped) == false) return false;
 	if (get<0>(swapped) >= 0) {
 		SecondaryIndex::get_mutable_instance().RenewSwappedSite(
 			get<0>(swapped), get<1>(swapped), get<2>(swapped), get<3>(swapped));
 
-		if ((*this)[col][row]->is_empty()) {
-			auto temp_ptr = move((*this)[col][row]->next_);
-			(*this)[col][row] = move(temp_ptr);
+		if (grid[col][row]->is_empty()) {
+			auto temp_ptr = move(grid[col][row]->next_);
+			grid[col][row] = move(temp_ptr);
 		}
 	}
 	return true;
 }
 
-void Grid::RetrieveAllSitesInCell(vector<Site>& result, int col, int row) {
-	auto p_bucket = get_mutable_instance()[col][row].get(); {
+void Grid::RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row) {
+	auto p_bucket = get_mutable_instance().grid[col][row]; {
 		lock_guard<mutex>{g_mutex[col][row]};
 		g_reader[col][row] += 1;
 		for (int i = p_bucket->current_ - 1; i >= 0; i--)
-			result.emplace_back(p_bucket->sites_[i]);
+			result.emplace_back(p_bucket->sites_[i].Value());
 	}
-	p_bucket = p_bucket->next_.get();
+	p_bucket = p_bucket->next_;
 	while (p_bucket) {
 		for (int i = p_bucket->current_ - 1; i >= 0; i--)
-			result.emplace_back(p_bucket->sites_[i]);
-		p_bucket = p_bucket->next_.get();
+			result.emplace_back(p_bucket->sites_[i].Value());
+		p_bucket = p_bucket->next_;
 	}
 
 	g_reader[col][row] -= 1;
 }
 
-void Grid::RetrieveSitesInCell(vector<Site>& result, int col, int row,
-                               float x1, float y1, float x2, float y2, long tq) {
-	auto p_bucket = get_mutable_instance()[col][row].get(); {
+void Grid::RetrieveSitesInCell(vector<SiteValue>& result, int col, int row,
+                               int x1, int y1, int x2, int y2, int tq) {
+	auto p_bucket = get_mutable_instance().grid[col][row]; {
 		lock_guard<mutex>{g_mutex[col][row]};
 		g_reader[col][row] += 1;
 		for (int i = p_bucket->current_ - 1; i >= 0; i--) {
-			if (p_bucket->sites_[i].x >= x1 && p_bucket->sites_[i].x <= x2
-				&& p_bucket->sites_[i].y >= y1 && p_bucket->sites_[i].y <= y2
-				&& (p_bucket->sites_[i].tu >= tq || -p_bucket->sites_[i].tu >= tq))
-				result.emplace_back(p_bucket->sites_[i]);
+			auto site = p_bucket->sites_[i].Value();
+			if (site.x >= x1 && site.x <= x2
+				&& site.y >= y1 && site.y <= y2
+				&& (site.tu >= tq || site.tu >= tq))
+				result.emplace_back(p_bucket->sites_[i].Value());
 		}
 	}
-	p_bucket = p_bucket->next_.get();
+	p_bucket = p_bucket->next_;
 	while (p_bucket) {
-		for (int i = p_bucket->current_ - 1; i >= 0; i--)
-			if (p_bucket->sites_[i].x >= x1 && p_bucket->sites_[i].x <= x2
-				&& p_bucket->sites_[i].y >= y1 && p_bucket->sites_[i].y <= y2
-				&& (p_bucket->sites_[i].tu >= tq || -p_bucket->sites_[i].tu >= tq))
-				result.emplace_back(p_bucket->sites_[i]);
-		p_bucket = p_bucket->next_.get();
+		for (int i = p_bucket->current_ - 1; i >= 0; i--) {
+			auto site = p_bucket->sites_[i].Value();
+			if (site.x >= x1 && site.x <= x2
+				&& site.y >= y1 && site.y <= y2
+				&& (site.tu >= tq || -site.tu >= tq))
+				result.emplace_back(p_bucket->sites_[i].Value());
+		}
+		p_bucket = p_bucket->next_;
 	}
 
 	g_reader[col][row] -= 1;
 }
 
-void Grid::MoveSite(int id, float x, float y) {
+void Grid::MoveSite(int id, int x, int y) {
 
 	auto& si = SecondaryIndex::get_mutable_instance();
 	auto p = si.find(id);
@@ -123,21 +141,19 @@ void Grid::MoveSite(int id, float x, float y) {
 	auto ptr = &p->second;
 	if (ptr->col == col && ptr->row == row) {// local update
 		auto p_site = ptr->p_bucket->sites_.begin() + ptr->index;
-		p_site->x = x;
-		p_site->y = y;
-		p_site->tu = static_cast<long int>(time(nullptr));
+		p_site->SetValue(x, y, static_cast<int>(time(nullptr)));
 	}
 	else {// non-local update
 		if (ptr->row_ld >= 0)
 		// ReSharper disable once CppPossiblyErroneousEmptyStatements
 			while (RemoveFromCell(id, ptr->col_ld, ptr->row_ld) == false);
 		auto added = AddToCell(id, x, y, col, row);
-		ptr->p_bucket->sites_[ptr->index].tu = -ptr->p_bucket->sites_[ptr->index].tu;
+		ptr->p_bucket->sites_[ptr->index].NegateTime();
 		ptr->RollInValues(added.first, added.second, col, row);
 	}
 }
 
-void Grid::Query(vector<Site>& result, float x1, float y1, float x2, float y2, long int tq) {
+void Grid::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq) {
 	int cx1 = get_coordinate(x1);
 	int cy1 = get_coordinate(y1);
 	int cx2 = get_coordinate(x2);
@@ -156,9 +172,9 @@ void Grid::Query(vector<Site>& result, float x1, float y1, float x2, float y2, l
 		RetrieveSitesInCell(result, cx2, y, x1, y1, x2, y2, tq);
 	}
 
-	vector<Site> unique_result_sites;
-	bool found_one = false;
+	vector<SiteValue> unique_result_sites;
 	for (auto& r : result) {
+		bool found_one = false;
 		for (auto& u : unique_result_sites) {
 			if (u.id == r.id) {
 				if (u.tu < 0) u = r;

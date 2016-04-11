@@ -16,28 +16,30 @@ const static int kSpacePerCellBitwise = 9;
 static mutex g_mutex[kGridWidth][kGridWidth];
 static unsigned g_reader[kGridWidth][kGridWidth];
 
-class Grid : public array<array<unique_ptr<Bucket>, kGridWidth>, kGridWidth>,
-             public singleton<Grid> {
+class Grid : public singleton<Grid> {
 public:
 	FRIEND_TEST(Container, Grid);
 	Grid();
+	~Grid();
 	void Clear();
-	void AddSite(int id, float x, float y);
+	void AddSite(int id, int x, int y);
 	void DelSite(int id);
-	void MoveSite(int id, float x, float y);
+	void MoveSite(int id, int x, int y);
 
-	static void Query(vector<Site> &result, float x1, float y1, float x2, float y2, long int tq);
+	static void Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq);
 private:
-	static int get_coordinate(float cord);
-	pair<Bucket*, unsigned> AddToCell(int id, float x, float y, int col, int row);
+	Bucket* grid[kGridWidth][kGridWidth];
+
+	static int get_coordinate(int cord);
+	pair<Bucket*, unsigned> AddToCell(int id, int x, int y, int col, int row);
 	bool RemoveFromCell(int id, int col, int row);
-	static void RetrieveAllSitesInCell(vector<Site> &result, int col, int row);
-	static void RetrieveSitesInCell(vector<Site> &result, int col, int row, float x1, float y1, float x2, float y2, long int tq);
+	static void RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row);
+	static void RetrieveSitesInCell(vector<SiteValue>& result, int col, int row, int x1, int y1, int x2, int y2, int tq);
 
 };
 
 
-inline int Grid::get_coordinate(float cord) {
-	return static_cast<int>(cord) >> kSpacePerCellBitwise;
+inline int Grid::get_coordinate(int cord) {
+	return cord >> kSpacePerCellBitwise;
 }
 
