@@ -19,7 +19,7 @@ class Bucket {
 
 public:
 	~Bucket() {
-		next_->~Bucket();
+		if (next_) next_->~Bucket();
 		_aligned_free(next_);
 	}
 	bool is_full() const;
