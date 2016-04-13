@@ -69,7 +69,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <ReferencePath>D:\Work\lib\googletest-master\googletest\msvc\gtest\Debug;$(ReferencePath)</ReferencePath>
-    <IncludePath>D:\Work\lib\boost_1_60_0;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Work\lib\boost_1_60_0;D:\Work\lib\googletest-master\googletest\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Work\lib\boost_1_60_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -81,7 +81,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
-      <AdditionalIncludeDirectories>D:\Work\lib\boost_1_60_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Work\lib\boost_1_60_0;D:\Work\lib\googletest-master\googletest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -162,10 +162,18 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bucket.cpp" />
+    <ClCompile Include="parallel_quad_tree.cpp" />
+    <ClCompile Include="secondary_element.cpp" />
+    <ClCompile Include="secondary_index.cpp" />
     <ClCompile Include="site.cpp" />
     <ClCompile Include="site_arranger.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bucket.h" />
+    <ClInclude Include="parallel_quad_tree.h" />
+    <ClInclude Include="secondary_element.h" />
+    <ClInclude Include="secondary_index.h" />
     <ClInclude Include="site.h" />
     <ClInclude Include="site_arranger.h" />
   </ItemGroup>

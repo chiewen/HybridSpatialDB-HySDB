@@ -10,6 +10,9 @@
     <Filter Include="MovingObjects">
       <UniqueIdentifier>{911085e7-63d1-4c90-b169-c33edaeb7a9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Container">
+      <UniqueIdentifier>{98d1282a-126b-4f47-b337-d54b7894fc7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="kernel.cu">
@@ -20,16 +23,40 @@
     <ClCompile Include="site.cpp">
       <Filter>MovingObjects</Filter>
     </ClCompile>
-    <ClCompile Include="site_arranger.cpp">
+    <ClCompile Include="parallel_quad_tree.cpp">
+      <Filter>Container</Filter>
+    </ClCompile>
+    <ClCompile Include="bucket.cpp">
       <Filter>MovingObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="secondary_element.cpp">
+      <Filter>Container</Filter>
+    </ClCompile>
+    <ClCompile Include="secondary_index.cpp">
+      <Filter>Container</Filter>
+    </ClCompile>
+    <ClCompile Include="site_arranger.cpp">
+      <Filter>Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="site.h">
       <Filter>MovingObjects</Filter>
     </ClInclude>
-    <ClInclude Include="site_arranger.h">
+    <ClInclude Include="parallel_quad_tree.h">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="bucket.h">
       <Filter>MovingObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="secondary_index.h">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="secondary_element.h">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="site_arranger.h">
+      <Filter>Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
