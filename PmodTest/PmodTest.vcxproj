@@ -98,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="container.h" />
+    <ClInclude Include="parallel_mod_test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mainEntry.cpp" />

@@ -23,5 +23,8 @@
     <ClInclude Include="container.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="parallel_mod_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
