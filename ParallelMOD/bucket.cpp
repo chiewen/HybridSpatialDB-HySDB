@@ -34,7 +34,7 @@ tuple<int, Bucket*, unsigned, bool, bool> Bucket::Del(const int id) {
 			}
 			else return result;
 		}
-		else p_bucket = p_bucket->next_;
+		else p_bucket = p_bucket->next_.get();
 	}
 end_while:
 	return result;

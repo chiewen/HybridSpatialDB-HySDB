@@ -6,22 +6,11 @@ Grid::Grid() {
 	Clear();
 }
 
-Grid::~Grid() {
-	for (int i = 0; i < kGridWidth; i++)
-		for (int j = 0; j < kGridWidth; j++) {
-			grid[i][j]->~Bucket();
-			_aligned_free(grid[i][j]);
-		}
-}
 
 void Grid::Clear() {
 	for (int i = 0; i < kGridWidth; i++)
-		for (int j = 0; j < kGridWidth; j++)
-			_aligned_free(grid[i][j]);
-	for (int i = 0; i < kGridWidth; i++)
 		for (int j = 0; j < kGridWidth; j++) {
-			grid[i][j] = static_cast<Bucket*>(_aligned_malloc(sizeof(Bucket), 16));
-			new(grid[i][j]) Bucket();
+			grid[i][j] = move(make_unique<Bucket>());
 		}
 }
 
@@ -29,10 +18,9 @@ pair<Bucket*, unsigned> Grid::AddToCell(int id, int x, int y, int col, int row) 
 	lock_guard<mutex>{g_mutex[col][row]};
 
 	if (grid[col][row]->is_full()) {
-		Bucket* new_bucket = static_cast<Bucket*>(_aligned_malloc(sizeof(Bucket), 16));
-		new(new_bucket) Bucket();
-		new_bucket->next_ = grid[col][row];
-		grid[col][row] = new_bucket;
+		auto new_bucket = make_unique<Bucket>();
+		new_bucket->next_ = move(grid[col][row]);
+		grid[col][row] = move(new_bucket);
 	}
 
 	return grid[col][row]->Add(id, x, y, col, row);
@@ -82,17 +70,17 @@ bool Grid::RemoveFromCell(int id, int col, int row) {
 }
 
 void Grid::RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row) {
-	auto p_bucket = get_mutable_instance().grid[col][row]; {
+	auto p_bucket = get_mutable_instance().grid[col][row].get(); {
 		lock_guard<mutex>{g_mutex[col][row]};
 		g_reader[col][row] += 1;
 		for (int i = p_bucket->current_ - 1; i >= 0; i--)
 			result.emplace_back(p_bucket->sites_[i].Value());
 	}
-	p_bucket = p_bucket->next_;
+	p_bucket = p_bucket->next_.get();
 	while (p_bucket) {
 		for (int i = p_bucket->current_ - 1; i >= 0; i--)
 			result.emplace_back(p_bucket->sites_[i].Value());
-		p_bucket = p_bucket->next_;
+		p_bucket = p_bucket->next_.get();
 	}
 
 	g_reader[col][row] -= 1;
@@ -100,7 +88,7 @@ void Grid::RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row) {
 
 void Grid::RetrieveSitesInCell(vector<SiteValue>& result, int col, int row,
                                int x1, int y1, int x2, int y2, int tq) {
-	auto p_bucket = get_mutable_instance().grid[col][row]; {
+	auto p_bucket = get_mutable_instance().grid[col][row].get(); {
 		lock_guard<mutex>{g_mutex[col][row]};
 		g_reader[col][row] += 1;
 		for (int i = p_bucket->current_ - 1; i >= 0; i--) {
@@ -111,7 +99,7 @@ void Grid::RetrieveSitesInCell(vector<SiteValue>& result, int col, int row,
 				result.emplace_back(p_bucket->sites_[i].Value());
 		}
 	}
-	p_bucket = p_bucket->next_;
+	p_bucket = p_bucket->next_.get();
 	while (p_bucket) {
 		for (int i = p_bucket->current_ - 1; i >= 0; i--) {
 			auto site = p_bucket->sites_[i].Value();
@@ -120,7 +108,7 @@ void Grid::RetrieveSitesInCell(vector<SiteValue>& result, int col, int row,
 				&& (site.tu >= tq || -site.tu >= tq))
 				result.emplace_back(p_bucket->sites_[i].Value());
 		}
-		p_bucket = p_bucket->next_;
+		p_bucket = p_bucket->next_.get();
 	}
 
 	g_reader[col][row] -= 1;

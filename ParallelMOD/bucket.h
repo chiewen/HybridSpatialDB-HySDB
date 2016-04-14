@@ -3,6 +3,7 @@
 #include <array>
 #include "gtest/gtest_prod.h"
 #include "site.h"
+#include <memory>
 
 using namespace std;
 
@@ -15,16 +16,15 @@ class Bucket {
 	array<Site, kSize> sites_;
 	unsigned current_ = 0;
 	unsigned readers_ = 0;
-	Bucket* next_ = nullptr;
+	unique_ptr<Bucket> next_ = nullptr;
 
 public:
-	~Bucket() {
-		if (next_) next_->~Bucket();
-		_aligned_free(next_);
-	}
 	bool is_full() const;
 	bool is_empty() const;
-	
+
+	void* operator new(size_t size){ return _aligned_malloc(size, 16); };
+	void operator delete(void * ptr) { _aligned_free(ptr); };
+
 	pair<Bucket*, unsigned> Add(int id, int x, int y, int col, int row);
 	tuple<int, Bucket*, unsigned, bool, bool> Del(const int id);
 };

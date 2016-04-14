@@ -5,6 +5,7 @@
 #include "bucket.h"
 #include <mutex>
 #include <vector>
+#include <memory>
 
 using namespace std;
 using boost::serialization::singleton;
@@ -20,7 +21,6 @@ class Grid : public singleton<Grid> {
 public:
 	FRIEND_TEST(Container, Grid);
 	Grid();
-	~Grid();
 	void Clear();
 	void AddSite(int id, int x, int y);
 	void DelSite(int id);
@@ -28,7 +28,7 @@ public:
 
 	static void Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq);
 private:
-	Bucket* grid[kGridWidth][kGridWidth];
+	unique_ptr<Bucket> grid[kGridWidth][kGridWidth];
 
 	static int get_coordinate(int cord);
 	pair<Bucket*, unsigned> AddToCell(int id, int x, int y, int col, int row);
