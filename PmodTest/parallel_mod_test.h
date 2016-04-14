@@ -11,9 +11,11 @@
 using namespace std;
 
 TEST(ParallelMOD, QuadTree) {
-	auto qt = make_shared<QuadTree>();
+	auto qt = make_shared<QuadTree>(move(make_unique<Bucket>()));
 	ASSERT_EQ(qt->IsLeaf(), true);
-	qt->children[0] = make_unique<QuadTree>();
-	ASSERT_EQ(qt->IsLeaf(), false);
+	qt->children[0] = make_unique<QuadTree>(move(make_unique<Bucket>()));
+	//ASSERT_EQ(qt->IsLeaf(), false);
+
+	cout << sizeof(array<unique_ptr<QuadTree>, 4>) << endl;
 }
 
