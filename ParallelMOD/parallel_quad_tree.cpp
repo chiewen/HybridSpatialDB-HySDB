@@ -5,11 +5,13 @@ QuadTree::QuadTree(unique_ptr<Bucket>&& bucket, int left, int right, int floor, 
 	ptr_bucket_(move(bucket)), left(left), right(right), floor(floor), ceiling(ceiling),
 	x_middle((left + right)/2), y_middle((floor+ceiling)/2) {}
 
-void QuadTree::Balance() {}
+void QuadTree::Balance() {
+	
+}
 
 void QuadTree::AddSite(int id, int x, int y) {}
 
-void QuadTree::MoveSite(int id, int x, int y) {}
+void QuadTree::MoveSite(int id, int x, int y, int x_new, int y_new) {}
 
 void QuadTree::Split() {
 	auto p0 = make_unique<QuadTree>(make_unique<Bucket>(), x_middle, right, y_middle, ceiling);

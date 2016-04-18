@@ -35,7 +35,7 @@ public:
 	inline bool IsLeaf() const;
 	void Balance();
 	void AddSite(int id, int x, int y);
-	void MoveSite(int id, int x, int y);
+	void MoveSite(int id, int x, int y, int x_new, int y_new);
 	void Split();
 };
 

@@ -9,9 +9,8 @@ Grid::Grid() {
 
 void Grid::Clear() {
 	for (int i = 0; i < kGridWidth; i++)
-		for (int j = 0; j < kGridWidth; j++) {
+		for (int j = 0; j < kGridWidth; j++) 
 			grid[i][j] = move(make_unique<Bucket>());
-		}
 }
 
 pair<Bucket*, unsigned> Grid::AddToCell(int id, int x, int y, int col, int row) {
