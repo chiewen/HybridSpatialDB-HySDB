@@ -83,10 +83,14 @@
   <ItemGroup>
     <ClCompile Include="grid.cpp" />
     <ClCompile Include="query_processor.cpp" />
+    <ClCompile Include="secondary_element.cpp" />
+    <ClCompile Include="secondary_index.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="grid.h" />
     <ClInclude Include="query_processor.h" />
+    <ClInclude Include="secondary_element.h" />
+    <ClInclude Include="secondary_index.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

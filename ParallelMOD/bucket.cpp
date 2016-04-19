@@ -1,9 +1,8 @@
 ﻿#include "bucket.h"
 #include <assert.h>
-#include "secondary_index.h"
 
 
-pair<Bucket*, unsigned> Bucket::Add(int id, int x, int y, int col, int row) {
+pair<Bucket*, unsigned> Bucket::Add(int id, int x, int y) {
 	assert(current_ < kSize);
 	sites_[current_].SetValue(id, x, y, static_cast<int>(time(nullptr)));
 

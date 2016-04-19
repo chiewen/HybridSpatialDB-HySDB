@@ -163,17 +163,17 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bucket.cpp" />
+    <ClCompile Include="element.cpp" />
+    <ClCompile Include="index.cpp" />
     <ClCompile Include="parallel_quad_tree.cpp" />
-    <ClCompile Include="secondary_element.cpp" />
-    <ClCompile Include="secondary_index.cpp" />
     <ClCompile Include="site.cpp" />
     <ClCompile Include="site_arranger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bucket.h" />
+    <ClInclude Include="element.h" />
+    <ClInclude Include="index.h" />
     <ClInclude Include="parallel_quad_tree.h" />
-    <ClInclude Include="secondary_element.h" />
-    <ClInclude Include="secondary_index.h" />
     <ClInclude Include="site.h" />
     <ClInclude Include="site_arranger.h" />
   </ItemGroup>

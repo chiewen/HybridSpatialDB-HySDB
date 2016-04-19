@@ -29,14 +29,14 @@
     <ClCompile Include="bucket.cpp">
       <Filter>MovingObjects</Filter>
     </ClCompile>
-    <ClCompile Include="secondary_element.cpp">
-      <Filter>Container</Filter>
-    </ClCompile>
-    <ClCompile Include="secondary_index.cpp">
-      <Filter>Container</Filter>
-    </ClCompile>
     <ClCompile Include="site_arranger.cpp">
       <Filter>Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="index.cpp">
+      <Filter>Container</Filter>
+    </ClCompile>
+    <ClCompile Include="element.cpp">
+      <Filter>Container</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,14 +49,14 @@
     <ClInclude Include="bucket.h">
       <Filter>MovingObjects</Filter>
     </ClInclude>
-    <ClInclude Include="secondary_index.h">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="secondary_element.h">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="site_arranger.h">
       <Filter>Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="index.h">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="element.h">
+      <Filter>Container</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

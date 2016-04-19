@@ -6,6 +6,7 @@
 #include <mutex>
 #include <vector>
 #include <memory>
+#include <atomic>
 
 using namespace std;
 using boost::serialization::singleton;
@@ -15,7 +16,7 @@ const static float kSpaceWidth = 1 << 17;
 const static int kSpacePerCellBitwise = 9;
 
 static mutex g_mutex[kGridWidth][kGridWidth];
-static unsigned g_reader[kGridWidth][kGridWidth];
+static atomic<unsigned> g_reader[kGridWidth][kGridWidth];
 
 class Grid : public singleton<Grid> {
 public:

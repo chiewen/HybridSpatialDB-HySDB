@@ -11,6 +11,7 @@ class Bucket {
 	FRIEND_TEST(Container, Grid);
 	FRIEND_TEST(Container, Bucket);
 	friend class Grid;
+	friend class QuadTree;
 
 	static const int kSize = 32;
 	array<Site, kSize> sites_;
@@ -25,7 +26,7 @@ public:
 	void* operator new(size_t size){ return _aligned_malloc(size, 16); };
 	void operator delete(void * ptr) { _aligned_free(ptr); };
 
-	pair<Bucket*, unsigned> Add(int id, int x, int y, int col, int row);
+	pair<Bucket*, unsigned> Add(int id, int x, int y);
 	tuple<int, Bucket*, unsigned, bool, bool> Del(const int id);
 };
 

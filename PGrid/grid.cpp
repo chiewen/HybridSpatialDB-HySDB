@@ -22,7 +22,7 @@ pair<Bucket*, unsigned> Grid::AddToCell(int id, int x, int y, int col, int row) 
 		grid[col][row] = move(new_bucket);
 	}
 
-	return grid[col][row]->Add(id, x, y, col, row);
+	return grid[col][row]->Add(id, x, y);
 }
 
 void Grid::AddSite(int id, int x, int y) {

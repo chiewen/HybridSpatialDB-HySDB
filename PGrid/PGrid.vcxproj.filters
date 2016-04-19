@@ -19,12 +19,24 @@
     <ClCompile Include="grid.cpp">
       <Filter>Container</Filter>
     </ClCompile>
+    <ClCompile Include="secondary_element.cpp">
+      <Filter>Container</Filter>
+    </ClCompile>
+    <ClCompile Include="secondary_index.cpp">
+      <Filter>Container</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="query_processor.h">
       <Filter>Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="grid.h">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="secondary_element.h">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="secondary_index.h">
       <Filter>Container</Filter>
     </ClInclude>
   </ItemGroup>
