@@ -9,7 +9,7 @@ Grid::Grid() {
 
 void Grid::Clear() {
 	for (int i = 0; i < kGridWidth; i++)
-		for (int j = 0; j < kGridWidth; j++) 
+		for (int j = 0; j < kGridWidth; j++)
 			grid[i][j] = move(make_unique<Bucket>());
 }
 
@@ -114,7 +114,6 @@ void Grid::RetrieveSitesInCell(vector<SiteValue>& result, int col, int row,
 }
 
 void Grid::MoveSite(int id, int x, int y) {
-
 	auto& si = SecondaryIndex::get_mutable_instance();
 	auto p = si.find(id);
 	if (p == si.end()) {
