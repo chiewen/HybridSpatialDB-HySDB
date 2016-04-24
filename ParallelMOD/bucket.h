@@ -10,6 +10,8 @@ using namespace std;
 class Bucket {
 	FRIEND_TEST(Container, Grid);
 	FRIEND_TEST(Container, Bucket);
+	FRIEND_TEST(ParallelMOD, QuadTree);
+
 	friend class Grid;
 	friend class QuadTree;
 

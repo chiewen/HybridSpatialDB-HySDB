@@ -10,6 +10,7 @@ QuadTree::QuadTree(unique_ptr<Bucket>&& bucket, int left, int right, int floor, 
 //TODO call cuda code
 void QuadTree::Balance() {}
 
+
 void QuadTree::AddSite(int id, int x, int y) {
 	auto added = AddToLeaf(id, x, y);
 	auto& si = Index::get_mutable_instance();
@@ -33,7 +34,7 @@ QuadTree* QuadTree::GetLeaf(int x, int y) {
 }
 
 pair<Bucket*, unsigned> QuadTree::AddToLeaf(int id, int x, int y) {
-	auto p_quad_tree = GetLeaf(x, y);
+	auto p_quad_tree = root_tree_.GetLeaf(x, y);
 
 	if (p_quad_tree->ptr_bucket_->is_full()) {
 		auto new_bucket = make_unique<Bucket>();
@@ -43,38 +44,37 @@ pair<Bucket*, unsigned> QuadTree::AddToLeaf(int id, int x, int y) {
 	return p_quad_tree->ptr_bucket_->Add(id, x, y);
 }
 
-bool QuadTree::RemoveSite(int id, Bucket* const bucket, const unsigned index) {
-	lock_guard<mutex> {mutex_};
+void QuadTree::RemoveSite(int id) {
+	auto& element = Index::get_mutable_instance().find(id)->second;
+	RemoveFromLeaf(id, element.p_bucket);
+}
 
+bool QuadTree::RemoveFromLeaf(int id, Bucket* p_bucket) {
 	//LATER count current reader
 	//while (g_reader[col][row] > 0);
 
-	auto swapped = ptr_bucket_->Del(id);
+	auto swapped = p_bucket->Del(id);
 	if (get<4>(swapped) == false) return false;
 	if (get<0>(swapped) >= 0) {
 		Index::get_mutable_instance().RenewSwappedSite(
 			get<0>(swapped), get<1>(swapped), get<2>(swapped));
-
-		if (ptr_bucket_->is_empty()) {
-			auto temp_ptr = move(ptr_bucket_->next_);
-			ptr_bucket_ = move(temp_ptr);
-		}
 	}
 	return true;
 }
 
-void QuadTree::MoveSite(int id, int x, int y, int x_new, int y_new) {
+void QuadTree::MoveSite(int id, int x_new, int y_new) {
 	auto& element = Index::get_mutable_instance().find(id)->second;
-	auto p_old = root_tree_.GetLeaf(x, y);
+	auto site = element.p_bucket->sites_[element.index].Value();
+	auto p_old = root_tree_.GetLeaf(site.x, site.y);
 	auto p_new = root_tree_.GetLeaf(x_new, y_new);
 
 	//LATER concurrency control
 	if (p_new == p_old) {
-		element.p_bucket->sites_[element.index].SetValue(id, x, y, static_cast<int>(time(nullptr)));
+		element.p_bucket->sites_[element.index].SetValue(id, site.x, site.y, static_cast<int>(time(nullptr)));
 	}
 	else {
 		auto added = p_new->AddToLeaf(id, x_new, y_new);
-		p_old->RemoveSite(id, element.p_bucket, element.index);
+		p_old->RemoveFromLeaf(id, p_old->ptr_bucket_.get());
 		element.p_bucket = added.first;
 		element.index = added.second;
 	}
@@ -92,3 +92,37 @@ void QuadTree::Split() {
 	children[3] = move(p3);
 }
 
+void QuadTree::linkBuckets(QuadTree* child) {
+	lock_guard<mutex>{child->mutex_};
+	Bucket* p_bucket = child->ptr_bucket_.get();
+	while (p_bucket->next_) p_bucket = p_bucket->next_.get();
+	p_bucket->next_ = move(ptr_bucket_);
+	ptr_bucket_ = move(child->ptr_bucket_);
+}
+
+void QuadTree::Merge() {
+	assert(children[0]->IsLeaf());
+	assert(children[1]->IsLeaf());
+	assert(children[2]->IsLeaf());
+	assert(children[3]->IsLeaf());
+
+	//LATER concurrency control
+	linkBuckets(children[0].get());
+	linkBuckets(children[1].get());
+	linkBuckets(children[2].get());
+	linkBuckets(children[3].get());
+
+	children[0].reset();
+	children[1].reset();
+	children[2].reset();
+	children[3].reset();
+
+	Bucket* p_bucket = ptr_bucket_.get();
+	while (p_bucket) {
+		while (p_bucket->next_ && p_bucket->next_->current_ == 0)
+			p_bucket->next_ = move(p_bucket->next_->next_);
+		p_bucket = p_bucket->next_.get();
+	}
+	if (ptr_bucket_->next_ && ptr_bucket_->current_ == 0)
+		ptr_bucket_ = move(ptr_bucket_->next_);
+}

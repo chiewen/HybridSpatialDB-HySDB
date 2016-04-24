@@ -18,7 +18,11 @@ tuple<int, Bucket*, unsigned, bool, bool> Bucket::Del(const int id) {
 			                 return s.id() == id;
 		                 });
 		if (p != p_bucket->sites_.begin() + p_bucket->current_) {
-			if (s_mutex[this->sites_[current_ - 1].id()].try_lock()) {
+			if (p == this->sites_.begin() + current_ - 1) {
+				--current_;
+				get<4>(result) = true;
+			}
+			else if (s_mutex[this->sites_[current_ - 1].id()].try_lock()) {
 				lock_guard<mutex>{s_mutex[this->sites_[current_ - 1].id()], adopt_lock};
 				--current_;
 				auto site = this->sites_[current_].Value();
@@ -29,13 +33,12 @@ tuple<int, Bucket*, unsigned, bool, bool> Bucket::Del(const int id) {
 				get<4>(result) = true;
 
 				*p = this->sites_[current_];
-				goto end_while;
 			}
-			else return result;
+
+			goto end_while;
 		}
 		else p_bucket = p_bucket->next_.get();
 	}
 end_while:
 	return result;
 }
-

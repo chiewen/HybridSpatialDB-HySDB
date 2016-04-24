@@ -59,12 +59,12 @@ bool Grid::RemoveFromCell(int id, int col, int row) {
 	if (get<0>(swapped) >= 0) {
 		SecondaryIndex::get_mutable_instance().RenewSwappedSite(
 			get<0>(swapped), get<1>(swapped), get<2>(swapped), get<3>(swapped));
-
-		if (grid[col][row]->is_empty()) {
-			auto temp_ptr = move(grid[col][row]->next_);
-			grid[col][row] = move(temp_ptr);
-		}
 	}
+	if (grid[col][row]->is_empty() && grid[col][row]->next_) {
+		auto temp_ptr = move(grid[col][row]->next_);
+		grid[col][row] = move(temp_ptr);
+	}
+
 	return true;
 }
 
@@ -174,4 +174,3 @@ void Grid::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int 
 
 	result.swap(unique_result_sites);
 }
-

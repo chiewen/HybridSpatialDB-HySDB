@@ -43,13 +43,21 @@ public:
 	};
 
 	inline bool IsLeaf() const;
-	void Balance();
-	void AddSite(int id, int x, int y);
 	QuadTree* GetLeaf(int x, int y);
-	pair<Bucket*, unsigned> AddToLeaf(int id, int x, int y);
-	bool RemoveSite(int id, Bucket* const bucket, const unsigned index);
-	static void MoveSite(int id, int x, int y, int x_new, int y_new);
+
+	static void AddSite(int id, int x, int y);
+	static void RemoveSite(int id);
+	static void MoveSite(int id, int x_new, int y_new);
+
+	static pair<Bucket*, unsigned> AddToLeaf(int id, int x, int y);
+	static bool RemoveFromLeaf(int id, Bucket* p_bucket);
+
 	void Split();
+	void Merge();
+	void Balance();
+
+private:
+	void linkBuckets(QuadTree* child);
 };
 
 bool QuadTree::IsLeaf() const {
@@ -61,4 +69,3 @@ bool QuadTree::IsLeaf() const {
 
 	return children[0].get() == nullptr;
 }
-

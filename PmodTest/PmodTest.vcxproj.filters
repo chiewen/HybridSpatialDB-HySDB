@@ -20,10 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="container.h">
+    <ClInclude Include="parallel_mod_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="parallel_mod_test.h">
+    <ClInclude Include="pgrid_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

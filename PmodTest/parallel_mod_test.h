@@ -8,6 +8,7 @@
 #include <xmmintrin.h>
 #include <parallel_quad_tree.h>
 #include <atomic>
+#include <index.h>
 
 using namespace std;
 
@@ -17,13 +18,30 @@ struct tt {
 };
 
 TEST(ParallelMOD, QuadTree) {
-	auto qt = make_shared<QuadTree>(make_unique<Bucket>(), 0, 100, 0, 100);
-	ASSERT_EQ(qt->IsLeaf(), true);
-	qt->Split();
-	ASSERT_EQ(qt->IsLeaf(), false);
+	auto& qt = QuadTree::root_tree_;
+	ASSERT_EQ(qt.IsLeaf(), true);
+	qt.Split();
+	ASSERT_EQ(qt.IsLeaf(), false);
+	qt.AddSite(0, 1, 1);
+	ASSERT_EQ(qt.children[2].get()->ptr_bucket_->current_, 1);
+	ASSERT_EQ(qt.children[0].get()->ptr_bucket_->current_, 0);
+	qt.children[2]->Split();
+	qt.AddSite(1, 1, 2);
 
-	cout << sizeof(array<unique_ptr<QuadTree>, 4>) << endl;
+	//auto swapped = p_quad_tree->ptr_bucket_->Del(0);
+	//ASSERT_EQ(get<4>(swapped), true);
+	qt.RemoveSite(0);
+	ASSERT_EQ(qt.children[2].get()->ptr_bucket_->current_, 0);
 
+	qt.MoveSite(1, 2, 3);
+	ASSERT_EQ(qt.children[2].get()->ptr_bucket_->current_, 0);
+	ASSERT_EQ(qt.children[2]->children[2].get()->ptr_bucket_->current_, 1);
+
+	qt.children[2]->Merge();
+	ASSERT_EQ(qt.children[2].get()->ptr_bucket_->current_, 1);
+
+//	cout << sizeof(array<unique_ptr<QuadTree>, 4>) << endl;
+	
 //	atomic<tt *> apt = new tt;
 //	tt* pt = apt.load();
 //	tt* po = pt;

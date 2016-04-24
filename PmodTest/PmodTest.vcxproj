@@ -97,7 +97,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="container.h" />
+    <ClInclude Include="pgrid_test.h" />
     <ClInclude Include="parallel_mod_test.h" />
   </ItemGroup>
   <ItemGroup>
