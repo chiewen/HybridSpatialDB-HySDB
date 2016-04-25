@@ -1,6 +1,7 @@
 #include "grid.h"
 #include "secondary_index.h"
 
+unique_ptr<Bucket> Grid::grid[kGridWidth][kGridWidth];
 
 Grid::Grid() {
 	Clear();

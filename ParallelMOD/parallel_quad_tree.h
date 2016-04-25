@@ -6,10 +6,12 @@
 #include "bucket.h"
 #include <assert.h>
 #include <iostream>
+#include "site_container.h"
+#include <unordered_set>
 
 using namespace std;
 
-class QuadTree {
+class QuadTree: public SiteContainer {
 	FRIEND_TEST(ParallelMOD, QuadTree);
 
 	static const int LEFT = 0;
@@ -17,8 +19,12 @@ class QuadTree {
 	static const int FLOOR = 0;
 	static const int CEILING = 20000;
 
+	static unordered_set<QuadTree *> quad_leafs;
+
 	array<unique_ptr<QuadTree>, 4> children;
 	unique_ptr<Bucket> ptr_bucket_ = nullptr;
+	QuadTree* ptr_parent = nullptr;
+
 	mutex mutex_;
 
 	int left;
@@ -46,11 +52,10 @@ public:
 	QuadTree* GetLeaf(int x, int y);
 
 	static void AddSite(int id, int x, int y);
-	static void RemoveSite(int id);
+	static void DelSite(int id);
 	static void MoveSite(int id, int x_new, int y_new);
 
-	static pair<Bucket*, unsigned> AddToLeaf(int id, int x, int y);
-	static bool RemoveFromLeaf(int id, Bucket* p_bucket);
+	void Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq) override;
 
 	void Split();
 	void Merge();
@@ -58,6 +63,9 @@ public:
 
 private:
 	void linkBuckets(QuadTree* child);
+
+	static pair<Bucket*, unsigned> AddToLeaf(int id, int x, int y);
+	static bool RemoveFromLeaf(int id, Bucket* p_bucket);
 };
 
 bool QuadTree::IsLeaf() const {

@@ -21,17 +21,15 @@ TEST(Container, Site) {
 	ASSERT_EQ(3, sv);
 }
 
-TEST(Container, Bucket) {
-	ASSERT_EQ((1 << 16) * sizeof(Bucket*), sizeof(Grid::get_const_instance()));
-	//ASSERT_EQ(Grid::get_const_instance().grid[0][0]->next_, nullptr);
-}
-
 TEST(Container, Grid) {
 	int x = 4 * (1 << kSpacePerCellBitwise) + 1;
 	int y = 3 * (1 << kSpacePerCellBitwise) + 1;
 	int x1 = 6 * (1 << kSpacePerCellBitwise) + 1;
 	int y1 = 5 * (1 << kSpacePerCellBitwise) + 1;
 
+	
+	ASSERT_EQ((1 << 16) * sizeof(Bucket*), sizeof(Grid::grid));
+	
 	auto& grid = Grid::get_mutable_instance();
 	grid.Clear();
 

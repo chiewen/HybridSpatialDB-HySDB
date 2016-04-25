@@ -18,6 +18,9 @@
     <CudaCompile Include="kernel.cu">
       <Filter>CUDA</Filter>
     </CudaCompile>
+    <CudaCompile Include="split_counter.cu">
+      <Filter>CUDA</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="site.cpp">
@@ -33,9 +36,6 @@
       <Filter>Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="index.cpp">
-      <Filter>Container</Filter>
-    </ClCompile>
-    <ClCompile Include="element.cpp">
       <Filter>Container</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,6 +57,12 @@
     </ClInclude>
     <ClInclude Include="element.h">
       <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="site_container.h">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="update_info.h">
+      <Filter>Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

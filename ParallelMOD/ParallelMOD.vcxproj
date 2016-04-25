@@ -160,10 +160,10 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="split_counter.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bucket.cpp" />
-    <ClCompile Include="element.cpp" />
     <ClCompile Include="index.cpp" />
     <ClCompile Include="parallel_quad_tree.cpp" />
     <ClCompile Include="site.cpp" />
@@ -176,6 +176,8 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="parallel_quad_tree.h" />
     <ClInclude Include="site.h" />
     <ClInclude Include="site_arranger.h" />
+    <ClInclude Include="site_container.h" />
+    <ClInclude Include="update_info.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

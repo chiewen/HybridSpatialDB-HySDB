@@ -3,12 +3,16 @@
 
 QuadTree QuadTree::root_tree_{make_unique<Bucket>(), LEFT, RIGHT, FLOOR, CEILING};
 
+unordered_set<QuadTree *> QuadTree::quad_leafs{};
+
 QuadTree::QuadTree(unique_ptr<Bucket>&& bucket, int left, int right, int floor, int ceiling) :
 	children{}, ptr_bucket_{move(bucket)}, left(left), right(right), floor(floor), ceiling(ceiling),
 	x_middle((left + right) / 2), y_middle((floor + ceiling) / 2) {}
 
 //TODO call cuda code
-void QuadTree::Balance() {}
+void QuadTree::Balance() {
+	
+}
 
 
 void QuadTree::AddSite(int id, int x, int y) {
@@ -44,7 +48,7 @@ pair<Bucket*, unsigned> QuadTree::AddToLeaf(int id, int x, int y) {
 	return p_quad_tree->ptr_bucket_->Add(id, x, y);
 }
 
-void QuadTree::RemoveSite(int id) {
+void QuadTree::DelSite(int id) {
 	auto& element = Index::get_mutable_instance().find(id)->second;
 	RemoveFromLeaf(id, element.p_bucket);
 }
@@ -80,6 +84,28 @@ void QuadTree::MoveSite(int id, int x_new, int y_new) {
 	}
 }
 
+void QuadTree::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq) {
+	if (x1 > RIGHT || x2 < LEFT || y1 > CEILING || y2 < FLOOR)
+		return;
+
+	Bucket* p_bucket = ptr_bucket_.get();
+	while (p_bucket) {
+		for (unsigned i = 0; i < p_bucket->current_; ++i) {
+			auto site = p_bucket->sites_[i].Value();
+			if (site.x >= x1 && site.x <= x2 && site.y >= y1 && site.y <= y2)
+				result.emplace_back(site);
+		}
+		p_bucket = p_bucket->next_.get();
+	}
+
+	if (!IsLeaf()) {
+		children[0]->Query(result, x1, y1, x2, y2, tq);
+		children[1]->Query(result, x1, y1, x2, y2, tq);
+		children[2]->Query(result, x1, y1, x2, y2, tq);
+		children[3]->Query(result, x1, y1, x2, y2, tq);
+	}
+}
+
 void QuadTree::Split() {
 	//LATER concurrency control
 	auto p0 = make_unique<QuadTree>(make_unique<Bucket>(), x_middle, right, y_middle, ceiling);
@@ -90,6 +116,16 @@ void QuadTree::Split() {
 	children[1] = move(p1);
 	children[2] = move(p2);
 	children[3] = move(p3);
+
+	children[0]->ptr_parent = this;
+	children[1]->ptr_parent = this;
+	children[2]->ptr_parent = this;
+	children[3]->ptr_parent = this;
+
+	auto f = quad_leafs.find(ptr_parent);
+	if (f != quad_leafs.end())
+		quad_leafs.erase(f);
+	quad_leafs.insert(this);
 }
 
 void QuadTree::linkBuckets(QuadTree* child) {
@@ -125,4 +161,13 @@ void QuadTree::Merge() {
 	}
 	if (ptr_bucket_->next_ && ptr_bucket_->current_ == 0)
 		ptr_bucket_ = move(ptr_bucket_->next_);
+
+	auto f = quad_leafs.find(this);
+	if (f != quad_leafs.end())
+		quad_leafs.erase(f);
+	if (ptr_parent && ptr_parent->children[0]->IsLeaf() &&
+		ptr_parent->children[1]->IsLeaf() &&
+		ptr_parent->children[2]->IsLeaf() &&
+		ptr_parent->children[3]->IsLeaf())
+		quad_leafs.insert(ptr_parent);
 }
