@@ -14,6 +14,7 @@
     <ProjectGuid>{8A8265A7-9A51-417B-9313-B61C07AA76D2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PGrid</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,6 +53,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Work\Code\cuda\ParallelMOD\ParallelMOD;D:\Work\lib\boost_1_60_0;D:\Work\lib\googletest-master\googletest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
