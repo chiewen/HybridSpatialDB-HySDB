@@ -15,19 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mainEntry.cpp">
+    <ClCompile Include="..\PmodTest\mainEntry.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="parallel_mod_test.h">
+    <ClInclude Include="..\PmodTest\pgrid_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="pgrid_test.h">
+    <ClInclude Include="..\PmodTest\parallel_mod_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>
