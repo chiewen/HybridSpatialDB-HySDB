@@ -17,6 +17,7 @@ void SiteArranger::ReadData(const string& path) {
 		getline(node_file, line);
 		vec_lines.push_back(line);
 	}
+
 	cout << "end reading" << vec_lines.size() << endl;
 	node_file.close();
 
