@@ -24,6 +24,9 @@
     <ClInclude Include="..\PmodTest\pgrid_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="lock_free_grid_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\PmodTest\mainEntry.cpp">

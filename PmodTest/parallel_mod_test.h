@@ -66,7 +66,7 @@ TEST(ParallelMOD, QuadTree) {
 
 	ASSERT_EQ(QuadTree::quad_leafs.size(), 1);
 
-	SiteArranger::ReadData("D:\\Work\\Data\\ndbc\\moving_sites.txt");
+	//SiteArranger::ReadData("D:\\Work\\Data\\ndbc\\moving_sites.txt");
 	//	cout << sizeof(array<unique_ptr<QuadTree>, 4>) << endl;
 
 	//	atomic<tt *> apt = new tt;

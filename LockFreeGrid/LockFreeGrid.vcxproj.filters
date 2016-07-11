@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Container">
+      <UniqueIdentifier>{1d769e83-738b-47ba-8428-83fac94e8d18}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LfBucket.h" />
+    <ClInclude Include="LfGrid.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LfBucket.cpp" />
+    <ClCompile Include="LfGrid.cpp" />
+  </ItemGroup>
+</Project>
