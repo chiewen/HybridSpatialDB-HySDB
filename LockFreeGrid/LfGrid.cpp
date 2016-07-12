@@ -1,4 +1,5 @@
 ﻿#include "LfGrid.h"
+#include <secondary_index.h>
 
 void LfGrid::Clear() {
 	for (int i = 0; i < kGridWidth; i++)
@@ -7,7 +8,29 @@ void LfGrid::Clear() {
 }
 
 void LfGrid::MoveSite(int id, int x, int y) {
-	
+//	auto& si = SecondaryIndex::get_mutable_instance();
+//	auto p = si.find(id);
+//	if (p == si.end()) {
+//		AddSite(id, x, y);
+//		return;
+//	}
+	int row = get_coordinate(y);
+	int col = get_coordinate(x);
+
+//	lock_guard<mutex>{s_mutex[id]};
+//	auto ptr = &p->second;
+//	if (ptr->col == col && ptr->row == row) {// local update
+//		auto p_site = ptr->p_bucket->sites_.begin() + ptr->index;
+//		p_site->SetValue(x, y, static_cast<int>(time(nullptr)));
+//	}
+//	else {// non-local update
+//		if (ptr->row_ld >= 0)
+//			 ReSharper disable once CppPossiblyErroneousEmptyStatements
+//			while (RemoveFromCell(id, ptr->col_ld, ptr->row_ld) == false);
+		auto added = MoveToCell(id, x, y, col, row);
+//		ptr->p_bucket->sites_[ptr->index].NegateTime();
+//		ptr->RollInValues(added.first, added.second, col, row);
+//	}
 }
 
 void LfGrid::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq) {
@@ -47,7 +70,13 @@ void LfGrid::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, in
 }
 
 pair<LfBucket*, unsigned> LfGrid::MoveToCell(int id, int x, int y, int col, int row) {
-	
+	if (grid[col][row]->is_full()) {
+		auto new_bucket = make_unique<LfBucket>();
+		new_bucket->next_ = move(grid[col][row]);
+		grid[col][row] = move(new_bucket);
+	}
+
+	return grid[col][row]->Add(id, x, y);
 }
 
 void LfGrid::RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row) {

@@ -15,6 +15,7 @@ using boost::serialization::singleton;
 const static int kGridWidth = 1 << 8;
 const static float kSpaceWidth = 1 << 17;
 const static int kSpacePerCellBitwise = 9;
+
 class LfGrid : public SiteContainer, public singleton<LfGrid> {
 public:
 	FRIEND_TEST(LockFreeGrid, Bucket);
