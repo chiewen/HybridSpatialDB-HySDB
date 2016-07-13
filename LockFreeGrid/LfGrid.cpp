@@ -1,7 +1,7 @@
 ﻿#include "LfGrid.h"
 #include <secondary_index.h>
 
-void LfGrid::Clear() {
+void LfGrid::Reset() {
 	for (int i = 0; i < kGridWidth; i++)
 		for (int j = 0; j < kGridWidth; j++)
 			grid[i][j] = move(make_unique<LfBucket>());

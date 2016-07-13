@@ -22,7 +22,7 @@ public:
 
 	LfGrid();
 
-	static void Clear();
+	static void Reset();
 
 	//static void AddSite(int id, int x, int y);
 	//static void DelSite(int id);
@@ -45,7 +45,7 @@ private:
 
 
 inline LfGrid::LfGrid() {
-	Clear();
+	Reset();
 }
 
 inline int LfGrid::get_coordinate(int cord) {
