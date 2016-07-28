@@ -37,7 +37,7 @@ private:
 
 
 inline LfGrid::LfGrid() {
-	Clear();
+	Reset();
 }
 
 inline int LfGrid::get_coordinate(int cord) {
