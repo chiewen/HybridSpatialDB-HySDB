@@ -23,11 +23,7 @@ public:
 	LfGrid();
 
 	static void Clear();
-
-	//static void AddSite(int id, int x, int y);
-	//static void DelSite(int id);
 	static void MoveSite(int id, int x, int y);
-
 	void Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq) override;
 
 private:
@@ -35,12 +31,8 @@ private:
 
 	static int get_coordinate(int cord);
 
-	static pair<LfBucket*, unsigned> MoveToCell(int id, int x, int y, int col, int row);
-	//static bool RemoveFromCell(int id, int col, int row);
-
 	static void RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row);
 	static void RetrieveSitesInCell(vector<SiteValue>& result, int col, int row, int x1, int y1, int x2, int y2, int tq);
-
 };
 
 

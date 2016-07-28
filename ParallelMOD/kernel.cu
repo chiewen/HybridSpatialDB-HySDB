@@ -115,4 +115,3 @@ Error:
 
 	return cudaStatus;
 }
-

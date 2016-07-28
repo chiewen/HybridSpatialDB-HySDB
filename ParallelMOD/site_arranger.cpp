@@ -28,7 +28,7 @@ void SiteArranger::ReadData(const string& path) {
 	for (size_t i = 0; i < 10; i++) {
 		for (size_t j = 0; j < 1000; j++) {
 			if (regex_search(vec_lines[i * 1000 + j].cbegin(), vec_lines[i * 1000 + j].cend(), m, reg_node)) {
-				updates_.push_back({ stoi(m.str(1)), (int)stof(m.str(2)) * 100, (int)stof(m.str(3)) * 100, (int)i });
+				updates_.push_back({stoi(m.str(1)), (int)stof(m.str(2)) * 100, (int)stof(m.str(3)) * 100, (int)i});
 			}
 		}
 		cout << "." << updates_.size() << endl;

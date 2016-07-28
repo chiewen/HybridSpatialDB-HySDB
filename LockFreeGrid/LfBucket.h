@@ -22,17 +22,15 @@ public:
 	unsigned current_ = 0;
 	unique_ptr<LfBucket> next_ = nullptr;
 
-public:
 	bool is_full() const;
 	bool is_empty() const;
 
 	void* operator new(size_t size){ return _aligned_malloc(size, 16); };
 	void operator delete(void * ptr) { _aligned_free(ptr); };
 
-	void Add(int id, int x, int y);
-	//tuple<int, LfBucket*, unsigned, bool, bool> Del(const int id);
+	pair<LfBucket*, unsigned> Add(int id, int x, int y);
+	void Del(int id, int x, int y);
 };
-
 
 inline bool LfBucket::is_full() const {
 	return current_ == kSize;
