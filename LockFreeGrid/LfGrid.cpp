@@ -27,11 +27,11 @@ void LfGrid::MoveSite(int id, int x, int y) {
 //		if (ptr->row_ld >= 0)
 //			 ReSharper disable once CppPossiblyErroneousEmptyStatements
 //			while (RemoveFromCell(id, ptr->col_ld, ptr->row_ld) == false);
-		auto added = MoveToCell(id, x, y, col, row);
+		//MoveToCell(id, x, y, col, row);
 //		ptr->p_bucket->sites_[ptr->index].NegateTime();
 //		ptr->RollInValues(added.first, added.second, col, row);
 //	}
-}
+} 
 
 void LfGrid::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq) {
 	int cx1 = get_coordinate(x1);
@@ -69,7 +69,7 @@ void LfGrid::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, in
 	result.swap(unique_result_sites);
 }
 
-pair<LfBucket*, unsigned> LfGrid::MoveToCell(int id, int x, int y, int col, int row) {
+void LfGrid::MoveToCell(int id, int x, int y, int col, int row) {
 	if (grid[col][row]->is_full()) {
 		auto new_bucket = make_unique<LfBucket>();
 		new_bucket->next_ = move(grid[col][row]);

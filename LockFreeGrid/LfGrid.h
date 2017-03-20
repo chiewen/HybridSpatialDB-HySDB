@@ -35,7 +35,7 @@ private:
 
 	static int get_coordinate(int cord);
 
-	static pair<LfBucket*, unsigned> MoveToCell(int id, int x, int y, int col, int row);
+	void MoveToCell(int id, int x, int y, int col, int row);
 	//static bool RemoveFromCell(int id, int col, int row);
 
 	static void RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row);
