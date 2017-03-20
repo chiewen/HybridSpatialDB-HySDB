@@ -8,6 +8,8 @@
   <ItemGroup>
     <ClInclude Include="LfBucket.h" />
     <ClInclude Include="LfGrid.h" />
+    <ClInclude Include="IdIndex.h" />
+    <ClInclude Include="IdElement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LfBucket.cpp" />

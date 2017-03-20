@@ -132,17 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\PmodTest\parallel_mod_test.h" />
-    <ClInclude Include="..\PmodTest\pgrid_test.h" />
-    <ClInclude Include="lock_free_grid_test.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\PmodTest\mainEntry.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\LockFreeGrid\LockFreeGrid.vcxproj">
       <Project>{2ac569b5-a6b6-4161-b86d-fd485c09f081}</Project>
     </ProjectReference>
@@ -152,6 +141,17 @@
     <ProjectReference Include="..\PGrid\PGrid.vcxproj">
       <Project>{8a8265a7-9a51-417b-9313-b61c07aa76d2}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lock_free_grid_test.h" />
+    <ClInclude Include="parallel_mod_test.h" />
+    <ClInclude Include="pgrid_test.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mainEntry.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

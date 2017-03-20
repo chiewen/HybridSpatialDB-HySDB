@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include <string>
-#include <ctime>
 #include <mutex>
 
 using namespace std;
@@ -69,4 +67,3 @@ __declspec(align(32)) struct Site {
 		return _mm_extract_epi32(content, 0);
 	}
 };
-

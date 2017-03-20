@@ -12,4 +12,3 @@ public:
 
 	static void ReadData(const string& path);
 };
-

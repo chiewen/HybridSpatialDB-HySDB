@@ -140,6 +140,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IdElement.h" />
+    <ClInclude Include="IdIndex.h" />
     <ClInclude Include="LfBucket.h" />
     <ClInclude Include="LfGrid.h" />
   </ItemGroup>

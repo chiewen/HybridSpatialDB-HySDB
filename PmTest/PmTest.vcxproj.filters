@@ -15,22 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\PmodTest\parallel_mod_test.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\PmodTest\pgrid_test.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="lock_free_grid_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="parallel_mod_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="pgrid_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\PmodTest\mainEntry.cpp">
+    <ClCompile Include="mainEntry.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

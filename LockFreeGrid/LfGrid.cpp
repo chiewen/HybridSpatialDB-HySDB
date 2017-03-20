@@ -1,37 +1,38 @@
 ﻿#include "LfGrid.h"
 #include <secondary_index.h>
+#include "IdIndex.h"
 
-void LfGrid::Reset() {
-	for (int i = 0; i < kGridWidth; i++)
-		for (int j = 0; j < kGridWidth; j++)
+void LfGrid::Clear() {
+	for (auto i = 0; i < kGridWidth; i++)
+		for (auto j = 0; j < kGridWidth; j++)
 			grid[i][j] = move(make_unique<LfBucket>());
 }
 
 void LfGrid::MoveSite(int id, int x, int y) {
-//	auto& si = SecondaryIndex::get_mutable_instance();
-//	auto p = si.find(id);
-//	if (p == si.end()) {
-//		AddSite(id, x, y);
-//		return;
-//	}
-	int row = get_coordinate(y);
-	int col = get_coordinate(x);
+	auto row = get_coordinate(y);
+	auto col = get_coordinate(x);
 
-//	lock_guard<mutex>{s_mutex[id]};
-//	auto ptr = &p->second;
-//	if (ptr->col == col && ptr->row == row) {// local update
-//		auto p_site = ptr->p_bucket->sites_.begin() + ptr->index;
-//		p_site->SetValue(x, y, static_cast<int>(time(nullptr)));
-//	}
-//	else {// non-local update
-//		if (ptr->row_ld >= 0)
-//			 ReSharper disable once CppPossiblyErroneousEmptyStatements
-//			while (RemoveFromCell(id, ptr->col_ld, ptr->row_ld) == false);
-		//MoveToCell(id, x, y, col, row);
-//		ptr->p_bucket->sites_[ptr->index].NegateTime();
-//		ptr->RollInValues(added.first, added.second, col, row);
-//	}
-} 
+	if (grid[col][row]->is_full()) {
+		auto new_bucket = make_unique<LfBucket>();
+		new_bucket->next_ = move(grid[col][row]);
+		grid[col][row] = move(new_bucket);
+	}
+	auto added = grid[col][row]->Add(id, x, y);
+
+	auto & index = IdIndex::get_mutable_instance();
+	auto p = index.find(id);
+	if (p != index.end()) {
+		if (p->second.col != col || p->second.row != row) {
+			grid[p->second.col][p->second.row]->Del(id, x, y);
+			p->second.col = col;
+			p->second.row = row;
+		}
+		p->second.p_bucket_ = added.first;
+		p->second.index = added.second;
+	}
+	else
+		index.emplace(make_pair(id, IdElement(added.first, added.second, col, row)));
+}
 
 void LfGrid::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, int tq) {
 	int cx1 = get_coordinate(x1);
@@ -69,22 +70,9 @@ void LfGrid::Query(vector<SiteValue>& result, int x1, int y1, int x2, int y2, in
 	result.swap(unique_result_sites);
 }
 
-void LfGrid::MoveToCell(int id, int x, int y, int col, int row) {
-	if (grid[col][row]->is_full()) {
-		auto new_bucket = make_unique<LfBucket>();
-		new_bucket->next_ = move(grid[col][row]);
-		grid[col][row] = move(new_bucket);
-	}
-
-	return grid[col][row]->Add(id, x, y);
-}
-
 void LfGrid::RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row) {
-	auto p_bucket = get_mutable_instance().grid[col][row].get(); {
-//		for (int i = p_bucket->current_ - 1; i >= 0; i--)
-//			result.emplace_back(p_bucket->sites_[i].Value());
-	}
-//	p_bucket = p_bucket->next_.get();
+	auto p_bucket = get_mutable_instance().grid[col][row].get(); 
+
 	while (p_bucket) {
 //		for (int i = p_bucket->current_ - 1; i >= 0; i--)
 //			result.emplace_back(p_bucket->sites_[i].Value());

@@ -25,8 +25,13 @@ public:
 	bool is_full() const;
 	bool is_empty() const;
 
-	void* operator new(size_t size){ return _aligned_malloc(size, 16); };
-	void operator delete(void * ptr) { _aligned_free(ptr); };
+	void* operator new(size_t size) {
+		return _aligned_malloc(size, 16);
+	};
+
+	void operator delete(void* ptr) {
+		_aligned_free(ptr);
+	};
 
 	pair<Bucket*, unsigned> Add(int id, int x, int y);
 	tuple<int, Bucket*, unsigned, bool, bool> Del(const int id);
@@ -40,4 +45,3 @@ inline bool Bucket::is_full() const {
 inline bool Bucket::is_empty() const {
 	return current_ == 0;
 }
-

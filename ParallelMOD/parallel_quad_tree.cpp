@@ -10,9 +10,7 @@ QuadTree::QuadTree(unique_ptr<Bucket>&& bucket, int left, int right, int floor, 
 	x_middle((left + right) / 2), y_middle((floor + ceiling) / 2) {}
 
 //TODO call cuda code
-void QuadTree::Balance() {
-	
-}
+void QuadTree::Balance() { }
 
 
 void QuadTree::AddSite(int id, int x, int y) {
