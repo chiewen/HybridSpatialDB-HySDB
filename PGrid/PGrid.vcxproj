@@ -42,7 +42,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>D:\Work\lib\boost_1_60_0\stage\lib;D:\Work\Code\cuda\ParallelMOD\Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\Work\Code\cuda\ParallelMOD\ParallelMOD;D:\Work\lib\boost_1_60_0;D:\Work\lib\googletest-master\googletest\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;D:\Work\lib\boost_1_60_0;D:\Work\lib\googletest-master\googletest\include;$(IncludePath)</IncludePath>
     <ReferencePath>D:\Work\lib\boost_1_60_0;D:\Work\lib\googletest-master\googletest\include;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Work\Code\cuda\ParallelMOD\ParallelMOD;D:\Work\lib\boost_1_60_0;D:\Work\lib\googletest-master\googletest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Work\lib\boost_1_60_0;D:\Work\lib\googletest-master\googletest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>

@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="kernel.cu">
-      <Filter>CUDA</Filter>
-    </CudaCompile>
     <CudaCompile Include="split_counter.cu">
       <Filter>CUDA</Filter>
     </CudaCompile>

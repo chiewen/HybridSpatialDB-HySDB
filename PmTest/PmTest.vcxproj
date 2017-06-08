@@ -73,6 +73,10 @@
     <IncludePath>D:\Work\lib\googletest-master\googletest\include;D:\Work\lib\boost_1_60_0;D:\Work\Repos\ParallelMOD\PGrid;D:\Work\Repos\ParallelMOD\ParallelMOD;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Work\Code\googletest\Debug;D:\Work\lib\boost_1_60_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\work\lib\googletest-master\googletest\include;D:\work\lib\boost_1_60_0;D:\work\Repos\HybridSpatialDB-HySDB\PGrid;D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;$(IncludePath)</IncludePath>
+    <ReferencePath>D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;$(ReferencePath)</ReferencePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -94,6 +98,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,9 +137,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LockFreeGrid\LockFreeGrid.vcxproj">
-      <Project>{2ac569b5-a6b6-4161-b86d-fd485c09f081}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\ParallelMOD\ParallelMOD.vcxproj">
       <Project>{aaddd8af-c10b-4238-bdf0-5d8414db8945}</Project>
     </ProjectReference>

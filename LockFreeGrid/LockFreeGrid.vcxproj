@@ -74,6 +74,10 @@
     <ReferencePath>D:\Work\lib\googletest-master\googletest\include;D:\Work\lib\boost_1_60_0;$(ReferencePath)</ReferencePath>
     <LibraryPath>D:\Work\lib\boost_1_60_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;$(IncludePath)</IncludePath>
+    <ReferencePath>D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;$(ReferencePath)</ReferencePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -94,6 +98,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
