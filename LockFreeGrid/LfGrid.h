@@ -31,13 +31,16 @@ private:
 
 	static int get_coordinate(int cord);
 
+	void MoveToCell(int id, int x, int y, int col, int row);
+	//static bool RemoveFromCell(int id, int col, int row);
+
 	static void RetrieveAllSitesInCell(vector<SiteValue>& result, int col, int row);
 	static void RetrieveSitesInCell(vector<SiteValue>& result, int col, int row, int x1, int y1, int x2, int y2, int tq);
 };
 
 
 inline LfGrid::LfGrid() {
-	Clear();
+	Reset();
 }
 
 inline int LfGrid::get_coordinate(int cord) {
