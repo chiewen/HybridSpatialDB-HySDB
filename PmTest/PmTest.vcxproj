@@ -29,7 +29,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Work\lib\googletest-master\googletest\include;D:\Work\lib\boost_1_60_0;D:\Work\Repos\ParallelMOD\PGrid;D:\Work\Repos\ParallelMOD\ParallelMOD;$(IncludePath)</IncludePath>
+    <IncludePath>D:\work\Repos\HybridSpatialDB-HySDB\HSDB;D:\work\Repos\HybridSpatialDB-HySDB\DataProvider;D:\Work\lib\googletest-master\googletest\include;D:\Work\lib\boost_1_60_0;D:\Work\Repos\ParallelMOD\PGrid;D:\Work\Repos\ParallelMOD\ParallelMOD;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Work\Code\googletest\Debug;D:\Work\lib\boost_1_60_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -85,7 +85,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>D:\work\Repos\HybridSpatialDB-HySDB\PGrid;D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\work\Repos\HybridSpatialDB-HySDB\HSDB;D:\work\Repos\HybridSpatialDB-HySDB\DataProvider;D:\work\Repos\HybridSpatialDB-HySDB\PGrid;D:\work\Repos\HybridSpatialDB-HySDB\ParallelMOD;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +138,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataProvider\DataProvider.vcxproj">
+      <Project>{4a95c249-27d7-4c64-9dac-e96bd130aee7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\HSDB\HSDB.vcxproj">
+      <Project>{1cef7809-9fd8-4b4e-a2e1-bf7948c36a61}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ParallelMOD\ParallelMOD.vcxproj">
       <Project>{aaddd8af-c10b-4238-bdf0-5d8414db8945}</Project>
     </ProjectReference>
